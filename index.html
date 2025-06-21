@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Offline Frames to GIF</title>
+  <title>Frames to GIF</title>
   <style>
     body { font-family: sans-serif; padding: 20px; }
     img { max-width: 300px; margin-top: 10px; }
   </style>
 </head>
 <body>
-  <h1>Frames to GIF (Fully Offline)</h1>
+  <h1>Frames to GIF</h1>
   <input type="file" id="frames" multiple accept="image/*"><br>
   <label>Frame Delay (ms):</label>
   <input type="number" id="delay" value="200"><br>
@@ -17,10 +17,10 @@
   <div id="output"></div>
 
   <!-- FULLY INLINE GIF ENCODER LIBRARY -->
-  <script src="https://cdn.jsdelivr.net/gh/antimatter15/jsgif@master/GIFEncoder.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/antimatter15/jsgif@master/LZWEncoder.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/antimatter15/jsgif@master/NeuQuant.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/antimatter15/jsgif@master/b64.js"></script>
+  <script src="GIFEncoder.js"></script>
+  <script src="LZWEncoder.js"></script>
+  <script src="NeuQuant.js"></script>
+  <script src="b64.js"></script>
 
   <script>
     document.getElementById('generate').onclick = async () => {
