@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <h1>Frames to GIF Tool</h1>
+  <input type="file" id="fileInput" multiple accept="image/*"><br>
+  <label>Frame Delay (ms):</label>
+  <input type="number" id="delayInput" value="100"><br>
+  <button onclick="createGIF()">Create GIF</button><br>
+  <div id="result"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
+  <script>
+    function createGIF() {
+      const files = document.getElementById('fileInput').files;
+      const delay = parseInt(document.getElementById('delayInput').value);
+      const result = document.getElementById('result');
+      result.innerHTML = 'Generating...';
+
+      if (files.length === 0) {
+        alert('Please upload at least one image');
+        return;
+      }
+
+      const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        workerScript: 'https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js'
+      });
+
+      let loaded = 0;
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            gif.addFrame(img, {delay: delay});
+            loaded++;
+            if (loaded === files.length) {
+              gif.on('finished', blob => {
+                const url = URL.createObjectURL(blob);
+                result.innerHTML = `<img src="${url}"><br><a href="${url}" download="output.gif">Download GIF</a>`;
+              });
+              gif.render();
+            }
+          };
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>
